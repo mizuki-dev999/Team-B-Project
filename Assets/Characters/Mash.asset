@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 194357306af4bff40b4edf421a3d1ac9, type: 3}
   m_Name: Mash
   m_EditorClassIdentifier: 
+  id: 0
   name: "\u30DE\u30C3\u30B7\u30E5"
+  characterImage: {fileID: 21300000, guid: 94160ca3263de7e4dbaea2c39458b8de, type: 3}
+  handElement: 0
   skills:
   - hand: 0
     damage: 50
