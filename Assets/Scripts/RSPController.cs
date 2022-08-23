@@ -19,7 +19,7 @@ public class RSPController : MonoBehaviour
     public Image myCharacterImage;
     public Image enemyCharacterImage;
 
-    public Text 
+    public Text myGooText;
 
     private void Start()
     {
