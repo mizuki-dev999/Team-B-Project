@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     public BattleManager battleManager;
+    public UIManager uiManager;
+    public RectTransform thisRectTransform;
     private const float duration = 0.3f;
     private float pointerDownTime = 0;
     private bool pointerDownFlag = false;
     private bool holdAction = false;
-    public GameObject SkillInformationPanel;
+    private bool used = false;
     public bool myCard = true;
     public int orderNumber;
 
@@ -19,14 +22,12 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         if (pointerDownFlag && !holdAction) pointerDownTime += Time.deltaTime;
         if(pointerDownFlag && pointerDownTime >= duration && !holdAction) //í∑âüÇµîªíË
         {
-            Debug.Log("Hold");
-            SkillInformationPanel.SetActive(true);
+            HoldAction(orderNumber, myCard);
             holdAction = true;
         }
         if(!pointerDownFlag && holdAction) //í∑âüÇµèIóπ
         {
-            Debug.Log("Finish Hold");
-            SkillInformationPanel.SetActive(false);
+            uiManager.skillInformationPanel.SetActive(false);
             holdAction = false;
         }
     }
@@ -34,19 +35,25 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         pointerDownFlag = true;
+        uiManager.PointerDownAnimation(thisRectTransform);
+        this.GetComponent<Image>().color = Color.gray;
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!holdAction && pointerDownFlag && myCard) ClickCharacterCard(orderNumber);
+        if (!holdAction && pointerDownFlag && myCard && !used && battleManager._state == BattleManager.State.SelectBattleCharacterState) ClickCharacterCard(orderNumber);
         pointerDownFlag = false;
         ResetPointerDownTime();
+        uiManager.PointerUpAnimation(thisRectTransform);
+        this.GetComponent<Image>().color = Color.white;
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         pointerDownFlag = false;
         ResetPointerDownTime();
+        uiManager.PointerUpAnimation(thisRectTransform);
+        this.GetComponent<Image>().color = Color.white;
     }
 
     /// <summary>
@@ -54,9 +61,16 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     private void ResetPointerDownTime() => pointerDownTime = 0;
 
-    public void HoldAction()
+    public void HoldAction(int orderNumber, bool myCard)
     {
-
+        Character character = (myCard) ? battleManager.myParty[orderNumber] : battleManager.enemyParty[orderNumber];
+        uiManager.skillInformationPanelNameText.text = character.name;
+        for (int i = 0; i<character.skills.Count; i++)
+        {
+            uiManager.skillInformationPanelHandTexts[i].text = character.skills[i].hand.ToString();
+            uiManager.skillInformationPanelDamageTexts[i].text = character.skills[i].damage.ToString();
+        }
+        uiManager.skillInformationPanel.SetActive(true);
     }
 
     /// <summary>
@@ -66,7 +80,8 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void ClickCharacterCard(int orderNumber)
     {
         battleManager.MyBattleCharacter = battleManager.myParty[orderNumber];
+        used = true;
         battleManager.EnemyBattleCharacter = battleManager.enemyParty[Random.Range(0, battleManager.enemyParty.Count)];
-        Debug.Log("Tap");
+        battleManager._state = BattleManager.State.SelectHandState;
     }
 }
