@@ -200,6 +200,7 @@ MonoBehaviour:
   enemyCharacter: {fileID: 11400000, guid: c2197610e750b204ca2a6dada84a045f, type: 2}
   myCharacterImage: {fileID: 428598498}
   enemyCharacterImage: {fileID: 1608553739}
+  myGooText: {fileID: 0}
   turn: 0
 --- !u!4 &414588933
 Transform:
@@ -244,7 +245,7 @@ GameObject:
   - component: {fileID: 428598499}
   - component: {fileID: 428598498}
   m_Layer: 5
-  m_Name: MyCharacterImage
+  m_Name: MyCharacterCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -498,7 +499,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543059852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1563,7 +1564,7 @@ GameObject:
   - component: {fileID: 1608553740}
   - component: {fileID: 1608553739}
   m_Layer: 5
-  m_Name: EnemyCharacterImage
+  m_Name: EnemyCharacterCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

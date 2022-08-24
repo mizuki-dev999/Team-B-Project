@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Mash
   m_EditorClassIdentifier: 
   id: 0
-  name: "\u30DE\u30C3\u30B7\u30E5"
+  name: "\u30EC\u30E2\u30F3\u30FB\u30A2\u30FC\u30F4\u30A3\u30F3"
   characterImage: {fileID: 21300000, guid: 94160ca3263de7e4dbaea2c39458b8de, type: 3}
-  handElement: 0
+  handElement: 2
   skills:
   - hand: 0
-    damage: 50
-  - hand: 1
     damage: 15
+  - hand: 1
+    damage: 50
   - hand: 2
     damage: 5
