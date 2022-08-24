@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 150, y: 230}
+  m_SizeDelta: {x: 120, y: 170}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8359436572533789770
 CanvasRenderer:
@@ -90,4 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleManager: {fileID: 0}
-  SkillInformationPanel: {fileID: 0}
+  uiManager: {fileID: 0}
+  thisRectTransform: {fileID: 0}
+  myCard: 1
+  orderNumber: 0

@@ -12,7 +12,7 @@ public class BattleManager : MonoBehaviour
     {
         SelectBattleCharacterState, //バトルにだすキャラクターを選択するステート
         SelectHandState, //じゃんけんの手を選択するステート
-
+        NoAction, //動作なしステート
     }
     private State state;
     public State _state
@@ -76,11 +76,68 @@ public class BattleManager : MonoBehaviour
         switch (state)
         {
             case State.SelectBattleCharacterState:
+                uiManager.selectCharacterCanvas.SetActive(true);
+                uiManager.SlideInPartyCharacterCard();
+                state = State.NoAction;
                 break;
             case State.SelectHandState:
+                uiManager.InitializeSelectHandUI();
+                uiManager.selectHandCanvas.SetActive(true);
+                uiManager.SlideInBattleCharacterCard();
+                uiManager.ChangeBattleCardImage();
+                uiManager.ChangeHandUI();
+                state = State.NoAction;
+                break;
+            case State.NoAction:
                 break;
             default:
                 break;
         }
+    }
+
+    /// <summary>
+    /// じゃんけんの勝敗判定メソッド
+    /// </summary>
+    /// <param name="myHandNumber">自分の手の番号</param>
+    /// <param name="enemyHandNumber">相手の手の番号</param>
+    public void Judge(int myHandNumber, int enemyHandNumber)
+    {
+        if ((myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.グー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.チョキ) ||
+            (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.チョキ && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.パー) ||
+            (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.パー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.グー))
+        {
+            Debug.Log("win");
+            Win(myBattleCharacter.skills[myHandNumber]);
+        }
+        else if ((myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.グー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.パー) ||
+            (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.チョキ && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.グー) ||
+            (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.パー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.チョキ))
+        {
+            Debug.Log("lose");
+            Lose(enemyBattleCharacter.skills[enemyHandNumber]);
+        }
+        else Draw(myBattleCharacter.skills[myHandNumber], enemyBattleCharacter.skills[enemyHandNumber]);
+    }
+
+    private void Win(Character.Skill mySkill)
+    {
+        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyCurrentHp);
+        uiManager.ChangeEnemyHpUI();
+    }
+
+    private void Lose(Character.Skill enemySkill)
+    {
+        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyCurrentHp);
+        uiManager.ChangeMyHpUI();
+    }
+
+    private void Draw(Character.Skill mySkill, Character.Skill enemySkill)
+    {
+        Debug.Log(mySkill.damage);
+        Debug.Log(enemySkill.damage);
+        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyMaxHp);
+        uiManager.ChangeEnemyHpUI();
+        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyMaxHp);
+        uiManager.ChangeMyHpUI();
     }
 }

@@ -41,7 +41,7 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!holdAction && pointerDownFlag && myCard && !used && battleManager._state == BattleManager.State.SelectBattleCharacterState) ClickCharacterCard(orderNumber);
+        if (!holdAction && pointerDownFlag && myCard && !used && battleManager._state == BattleManager.State.NoAction) ClickCharacterCard(orderNumber);
         pointerDownFlag = false;
         ResetPointerDownTime();
         uiManager.PointerUpAnimation(thisRectTransform);
@@ -76,12 +76,14 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// <summary>
     /// 戦闘に使用するキャラクター選択時のキャラクター画像の押下時アクション
     /// </summary>
-    /// <param name="orderNumber">編成番号</param>
-    public void ClickCharacterCard(int orderNumber)
+    /// <param name="myOrderNumber">編成番号</param>
+    public void ClickCharacterCard(int myOrderNumber)
     {
-        battleManager.MyBattleCharacter = battleManager.myParty[orderNumber];
+        uiManager.SlideOutPartyCharacterCard();
+        battleManager.MyBattleCharacter = battleManager.myParty[myOrderNumber];
         used = true;
-        battleManager.EnemyBattleCharacter = battleManager.enemyParty[Random.Range(0, battleManager.enemyParty.Count)];
-        battleManager._state = BattleManager.State.SelectHandState;
+        int enemyOrderNumber = Random.Range(0, battleManager.enemyParty.Count);
+        battleManager.EnemyBattleCharacter = battleManager.enemyParty[enemyOrderNumber];
+        uiManager.enemyPartyImages[enemyOrderNumber].GetComponent<SelectCharacter>().used = true;
     }
 }
