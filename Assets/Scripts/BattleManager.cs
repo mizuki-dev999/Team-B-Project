@@ -106,14 +106,12 @@ public class BattleManager : MonoBehaviour
             (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.チョキ && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.パー) ||
             (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.パー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.グー))
         {
-            Debug.Log("win");
             Win(myBattleCharacter.skills[myHandNumber]);
         }
         else if ((myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.グー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.パー) ||
             (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.チョキ && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.グー) ||
             (myBattleCharacter.skills[myHandNumber].hand == Character.Skill.Hand.パー && enemyBattleCharacter.skills[enemyHandNumber].hand == Character.Skill.Hand.チョキ))
         {
-            Debug.Log("lose");
             Lose(enemyBattleCharacter.skills[enemyHandNumber]);
         }
         else Draw(myBattleCharacter.skills[myHandNumber], enemyBattleCharacter.skills[enemyHandNumber]);
@@ -133,8 +131,6 @@ public class BattleManager : MonoBehaviour
 
     private void Draw(Character.Skill mySkill, Character.Skill enemySkill)
     {
-        Debug.Log(mySkill.damage);
-        Debug.Log(enemySkill.damage);
         enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyMaxHp);
         uiManager.ChangeEnemyHpUI();
         myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyMaxHp);
