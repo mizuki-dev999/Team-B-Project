@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1920"
+   height="1080"
+   viewBox="0 0 508 285.75"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   sodipodi:docname="intern.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="479.4184"
+     inkscape:cy="230.51681"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer2" />
+  <defs
+     id="defs2">
+    <rect
+       x="490.95429"
+       y="481.40265"
+       width="958.98465"
+       height="234.97034"
+       id="rect12120" />
+    <rect
+       x="620.8566"
+       y="344.8142"
+       width="203.44993"
+       height="48.713364"
+       id="rect4053" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       inkscape:groupmode="layer"
+       id="layer2"
+       inkscape:label="Layer 2">
+      <g
+         id="g25081"
+         transform="translate(0,-0.24582919)"
+         inkscape:export-filename="C:\Users\mizut\OneDrive\画像\UI\mashle_TopBar.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96">
+        <path
+           id="rect1240-5"
+           style="fill:#a0892c;stroke-width:6.74532;stroke-linejoin:round;paint-order:stroke fill markers"
+           d="m 343.20312,165.90039 c -87.7005,0.001 -175.40111,0.003 -263.101558,0.0254 -4.026966,0.26521 -7.250871,4.28653 -6.798071,8.26641 0.06676,8.27898 -0.14421,16.56639 0.159366,24.83948 0.701976,3.75296 4.624911,6.43006 8.371909,5.95855 91.953604,-0.0103 183.907404,-0.005 275.860884,-0.0337 1.51444,0.0182 3.10245,0.0315 4.45496,-0.75877 2.82064,-1.44954 4.56818,-4.73569 4.11899,-7.88606 -0.0352,-8.13845 0.13128,-16.28464 -0.13638,-24.41769 -0.67645,-3.61453 -4.3206,-6.30389 -7.9672,-6.00876 -4.98763,0.005 -9.97526,0.0101 -14.9629,0.0151 z" />
+        <rect
+           style="fill:#1a1a1a;stroke-width:6.74532;stroke-linejoin:round;paint-order:stroke fill markers"
+           id="rect24940"
+           width="288.73489"
+           height="34.849705"
+           x="75.432907"
+           y="168.01822"
+           rx="0"
+           ry="5.3502688" />
+      </g>
+      <rect
+         style="fill:#ffffff;stroke-width:2.518;stroke-linejoin:round;paint-order:stroke fill markers"
+         id="rect25131"
+         width="133.95549"
+         height="8.2319012"
+         x="108.51142"
+         y="20.205576"
+         ry="0"
+         inkscape:export-filename="C:\Users\mizut\OneDrive\画像\UI\Bar.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+    </g>
+    <g
+       id="g24925"
+       transform="translate(12.5645,-1.0583333)"
+       inkscape:export-filename="C:\Users\mizut\OneDrive\画像\UI\mashle_TopBar.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
+      <path
+         id="rect23401"
+         style="fill:#800000;stroke-width:2.518;stroke-linejoin:round;paint-order:stroke fill markers"
+         d="m 187.08876,166.67561 v 45.65194 h 0.0274 l 20.13365,14.85853 20.13314,-14.85853 v -45.65194 z"
+         sodipodi:nodetypes="ccccccc" />
+      <path
+         id="path23946"
+         style="fill:#a0892c;stroke-width:2.518;stroke-linejoin:round;paint-order:stroke fill markers"
+         d="m 189.7357,166.67561 v 44.29549 l 17.51366,12.92582 17.48627,-12.90619 v -44.31512 z m 1.58854,5.3e-4 h 31.82441 v 43.51156 l -15.89877,11.73416 c -5.30859,-3.91798 -10.61705,-7.83585 -15.92564,-11.75381 z" />
+    </g>
+  </g>
+</svg>

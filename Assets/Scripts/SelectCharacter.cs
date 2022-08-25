@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using TMPro;
 
 public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
@@ -16,6 +17,8 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool used = false;
     public bool myCard = true;
     public int orderNumber;
+    public GameObject coverImageGameObject;
+    public TextMeshProUGUI orderNumberText;
 
     void Update()
     {
@@ -82,8 +85,17 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         uiManager.SlideOutPartyCharacterCard();
         battleManager.MyBattleCharacter = battleManager.myParty[myOrderNumber];
         used = true;
-        int enemyOrderNumber = Random.Range(0, battleManager.enemyParty.Count);
+        battleManager.usedMyPatry.Add(myOrderNumber);
+        int enemyOrderNumber = GetEnemyOrderNumber();
         battleManager.EnemyBattleCharacter = battleManager.enemyParty[enemyOrderNumber];
         uiManager.enemyPartyImages[enemyOrderNumber].GetComponent<SelectCharacter>().used = true;
+        battleManager.usedEnemyParty.Add(enemyOrderNumber);
+    }
+
+    public int GetEnemyOrderNumber()
+    {
+        List<int> nums = new List<int>() { 0, 1, 2, 3 };
+        foreach(int i in battleManager.usedEnemyParty) nums.Remove(i);
+        return nums[Random.Range(0, nums.Count)];
     }
 }

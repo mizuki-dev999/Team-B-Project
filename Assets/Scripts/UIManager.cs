@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI[] skillInformationPanelHandTexts;
     public TextMeshProUGUI[] skillInformationPanelDamageTexts;
     public GameObject stopSelectCharacterPanel;
+    public SelectCharacter[] mySelectCharacters;
+    public SelectCharacter[] enemySelectCharacters;
     [Header("トップUI")]
     public TextMeshProUGUI turnNumberText;
     public TextMeshProUGUI myHpValueText;
@@ -118,7 +120,32 @@ public class UIManager : MonoBehaviour
     }
     public void InitializeSelectCharacterUI()
     {
-        
+        for(int i=0; i<battleManager.usedMyPatry.Count; i++)
+        {
+            mySelectCharacters[battleManager.usedMyPatry[i]].coverImageGameObject.SetActive(true);
+            enemySelectCharacters[battleManager.usedEnemyParty[i]].coverImageGameObject.SetActive(true);
+            switch (i)
+            {
+                case 0:
+                    mySelectCharacters[battleManager.usedMyPatry[i]].orderNumberText.text = "1st";
+                    enemySelectCharacters[battleManager.usedEnemyParty[i]].orderNumberText.text = "1st";
+                    break;
+                case 1:
+                    mySelectCharacters[battleManager.usedMyPatry[i]].orderNumberText.text = "2nd";
+                    enemySelectCharacters[battleManager.usedEnemyParty[i]].orderNumberText.text = "2nd";
+                    break;
+                case 2:
+                    mySelectCharacters[battleManager.usedMyPatry[i]].orderNumberText.text = "3rd";
+                    enemySelectCharacters[battleManager.usedEnemyParty[i]].orderNumberText.text = "3rd";
+                    break;
+                case 3:
+                    mySelectCharacters[battleManager.usedMyPatry[i]].orderNumberText.text = "4th";
+                    enemySelectCharacters[battleManager.usedEnemyParty[i]].orderNumberText.text = "4th";
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     //手を決めるステート--------------------------------------------------------------

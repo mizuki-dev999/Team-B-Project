@@ -49,6 +49,9 @@ public class BattleManager : MonoBehaviour
     //パーティ編成を格納
     public List<Character> myParty = new(); 
     public List<Character> enemyParty = new();
+
+    public List<int> usedMyPatry = new();
+    public List<int> usedEnemyParty = new();
     //バトルに使用するキャラクター
     private Character myBattleCharacter;
     public Character MyBattleCharacter
@@ -76,6 +79,7 @@ public class BattleManager : MonoBehaviour
         switch (state)
         {
             case State.SelectBattleCharacterState:
+                uiManager.InitializeSelectCharacterUI();
                 uiManager.selectCharacterCanvas.SetActive(true);
                 uiManager.SlideInPartyCharacterCard();
                 state = State.NoAction;
