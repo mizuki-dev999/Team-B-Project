@@ -12,10 +12,11 @@ public class BattleManager : MonoBehaviour
     {
         SelectBattleCharacterState, //バトルにだすキャラクターを選択するステート
         SelectHandState, //じゃんけんの手を選択するステート
+        BattleEnd, //戦闘終了ステート
         NoAction, //動作なしステート
     }
     private State state;
-    public State _state
+    public State STATE
     {
         get => state;
         set => state = value;
@@ -91,6 +92,8 @@ public class BattleManager : MonoBehaviour
                 uiManager.ChangeBattleCardImage();
                 uiManager.ChangeHandUI();
                 state = State.NoAction;
+                break;
+            case State.BattleEnd:
                 break;
             case State.NoAction:
                 break;

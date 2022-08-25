@@ -44,7 +44,7 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!holdAction && pointerDownFlag && myCard && !used && battleManager._state == BattleManager.State.NoAction) ClickCharacterCard(orderNumber);
+        if (!holdAction && pointerDownFlag && myCard && !used && battleManager.STATE == BattleManager.State.NoAction) ClickCharacterCard(orderNumber);
         pointerDownFlag = false;
         ResetPointerDownTime();
         uiManager.PointerUpAnimation(thisRectTransform);

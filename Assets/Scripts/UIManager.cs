@@ -115,7 +115,7 @@ public class UIManager : MonoBehaviour
         {
             stopSelectCharacterPanel.SetActive(false);
             selectCharacterCanvas.SetActive(false);
-            battleManager._state = BattleManager.State.SelectHandState;
+            battleManager.STATE = BattleManager.State.SelectHandState;
         });
     }
     public void InitializeSelectCharacterUI()
@@ -211,13 +211,13 @@ public class UIManager : MonoBehaviour
             if (i == enemyHandNumber) enemyHandSkillGameObjects[i].GetComponent<RectTransform>().DOAnchorPosX(0, duration);
             else enemyHandSkillGameObjects[i].SetActive(false);
         }
-        DOVirtual.DelayedCall(duration+1, () => SlideOutBattleCharacterCard()).OnComplete(() =>
+        DOVirtual.DelayedCall(duration+1.5f, () => SlideOutBattleCharacterCard()).OnComplete(() =>
         {
             stopSelectHandPanel.SetActive(false);
             selectHandCanvas.SetActive(false);
             battleManager.Turn++;
             turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
-            battleManager._state = BattleManager.State.SelectBattleCharacterState;
+            battleManager.STATE = BattleManager.State.SelectBattleCharacterState;
         });
     }
 

@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 194357306af4bff40b4edf421a3d1ac9, type: 3}
-  m_Name: Dot
+  m_Name: Fin
   m_EditorClassIdentifier: 
   id: 2
-  name: "\u30C9\u30C3\u30C8\u30FB\u30D0\u30EC\u30C3\u30C8"
-  characterImage: {fileID: 21300000, guid: 94160ca3263de7e4dbaea2c39458b8de, type: 3}
+  name: "\u30D5\u30A3\u30F3\u30FB\u30A8\u30A4\u30E0\u30BA"
+  characterImage: {fileID: 21300000, guid: 5a41226e6ffba8c409ba31ddbfd98ad2, type: 3}
   handElement: 2
   skills:
   - hand: 0
-    damage: 15
+    damage: 20
   - hand: 1
-    damage: 5
+    damage: 20
   - hand: 2
-    damage: 50
+    damage: 30

@@ -7,6 +7,12 @@ public class Character : ScriptableObject
 {
     public int id;
     public new string name;
+    public enum Rare
+    {
+        N,
+        SR,
+        SSR,
+    };
     public Sprite characterImage;
     public enum CharacterElement
     {
