@@ -9,10 +9,11 @@ public class Character : ScriptableObject
     public new string name;
     public enum Rare
     {
-        N,
+        R,
         SR,
         SSR,
     };
+    public Rare rare;
     public Sprite characterImage;
     public enum CharacterElement
     {
@@ -34,5 +35,6 @@ public class Character : ScriptableObject
         }
         public Hand hand;
         public int damage;
+        public Sprite[] SkillEffectSprites;
     }
 }

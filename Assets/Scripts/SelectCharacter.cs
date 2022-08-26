@@ -44,7 +44,7 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (!holdAction && pointerDownFlag && myCard && !used && battleManager.STATE == BattleManager.State.NoAction) ClickCharacterCard(orderNumber);
+        if (!holdAction && pointerDownFlag && myCard && !used && battleManager.STATE == BattleManager.State.WaitState) ClickCharacterCard(orderNumber);
         pointerDownFlag = false;
         ResetPointerDownTime();
         uiManager.PointerUpAnimation(thisRectTransform);
@@ -94,7 +94,7 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
 
     public int GetEnemyOrderNumber()
     {
-        List<int> nums = new List<int>() { 0, 1, 2, 3 };
+        List<int> nums = new() { 0, 1, 2, 3 };
         foreach(int i in battleManager.usedEnemyParty) nums.Remove(i);
         return nums[Random.Range(0, nums.Count)];
     }

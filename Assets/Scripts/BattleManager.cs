@@ -13,7 +13,7 @@ public class BattleManager : MonoBehaviour
         SelectBattleCharacterState, //バトルにだすキャラクターを選択するステート
         SelectHandState, //じゃんけんの手を選択するステート
         BattleEnd, //戦闘終了ステート
-        NoAction, //動作なしステート
+        WaitState, //動作なしステート
     }
     private State state;
     public State STATE
@@ -67,6 +67,10 @@ public class BattleManager : MonoBehaviour
         set => enemyBattleCharacter = value;
     }
 
+    //エフェクト
+    public SpriteAnimator myEffect;
+    public SpriteAnimator enemyEffect;
+
     void Start()
     {
         myPartyCurrentHp = myPartyMaxHp;
@@ -83,7 +87,7 @@ public class BattleManager : MonoBehaviour
                 uiManager.InitializeSelectCharacterUI();
                 uiManager.selectCharacterCanvas.SetActive(true);
                 uiManager.SlideInPartyCharacterCard();
-                state = State.NoAction;
+                state = State.WaitState;
                 break;
             case State.SelectHandState:
                 uiManager.InitializeSelectHandUI();
@@ -91,11 +95,11 @@ public class BattleManager : MonoBehaviour
                 uiManager.SlideInBattleCharacterCard();
                 uiManager.ChangeBattleCardImage();
                 uiManager.ChangeHandUI();
-                state = State.NoAction;
+                state = State.WaitState;
                 break;
             case State.BattleEnd:
                 break;
-            case State.NoAction:
+            case State.WaitState:
                 break;
             default:
                 break;
@@ -127,20 +131,33 @@ public class BattleManager : MonoBehaviour
     private void Win(Character.Skill mySkill)
     {
         enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyCurrentHp);
+        if (mySkill.SkillEffectSprites.Length == 0) enemyEffect.BeginAnimation();
+        else enemyEffect.BeginAnimation(mySkill.SkillEffectSprites);
+        uiManager.ShowJudgeImage(uiManager.winLogoGameObject);
         uiManager.ChangeEnemyHpUI();
     }
 
     private void Lose(Character.Skill enemySkill)
     {
         myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyCurrentHp);
+        if (enemySkill.SkillEffectSprites.Length == 0) myEffect.BeginAnimation();
+        else myEffect.BeginAnimation(enemySkill.SkillEffectSprites);
+        uiManager.ShowJudgeImage(uiManager.loseLogoGameObject);
         uiManager.ChangeMyHpUI();
     }
 
     private void Draw(Character.Skill mySkill, Character.Skill enemySkill)
     {
-        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyMaxHp);
+        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyCurrentHp);
+        if (mySkill.SkillEffectSprites.Length == 0) enemyEffect.BeginAnimation();
+        else enemyEffect.BeginAnimation(mySkill.SkillEffectSprites);
         uiManager.ChangeEnemyHpUI();
-        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyMaxHp);
+
+        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyCurrentHp);
+        if (enemySkill.SkillEffectSprites.Length == 0) myEffect.BeginAnimation();
+        else myEffect.BeginAnimation(enemySkill.SkillEffectSprites);
         uiManager.ChangeMyHpUI();
+
+        uiManager.ShowJudgeImage(uiManager.drawLogoGameObject);
     }
 }

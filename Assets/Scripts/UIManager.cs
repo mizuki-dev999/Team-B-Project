@@ -47,6 +47,10 @@ public class UIManager : MonoBehaviour
     public GameObject[] enemyHandSkillGameObjects;
     public TextMeshProUGUI[] enemyHandSkillTexts;
 
+    public GameObject winLogoGameObject;
+    public GameObject loseLogoGameObject;
+    public GameObject drawLogoGameObject;
+
     private void Start()
     {
         turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
@@ -151,6 +155,8 @@ public class UIManager : MonoBehaviour
     //手を決めるステート--------------------------------------------------------------
     public void SlideInBattleCharacterCard()
     {
+        stopSelectHandPanel.SetActive(true);
+
         myBattleCharacterCardRectTransform.DOAnchorPosX(150, duration);
         myBattleCharacterCardImage.DOFade(1, duration);
 
@@ -162,20 +168,33 @@ public class UIManager : MonoBehaviour
 
         enemyHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(-240, duration);
         enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(1, duration);
+
+        DOVirtual.DelayedCall(duration, () => stopSelectHandPanel.SetActive(false));
     }
 
     public void SlideOutBattleCharacterCard()
     {
         myBattleCharacterCardRectTransform.DOAnchorPosX(300, duration);
+        myBattleCharacterCardImage.DOFade(0, duration);
         myHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(390, duration);
         myHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration);
+
         enemyBattleCharacterCardRectTransform.DOAnchorPosX(-300, duration);
+        enemyBattleCharacterCardImage.DOFade(0, duration);
         enemyHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(-390, duration);
-        enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration);
+        enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration).OnComplete(() =>
+        {
+            stopSelectHandPanel.SetActive(false);
+            selectHandCanvas.SetActive(false);
+            battleManager.Turn++;
+            turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
+            battleManager.STATE = BattleManager.State.SelectBattleCharacterState;
+        });
     }
 
     public void OnHandButton(int myHandNuber)
     {
+        stopSelectHandPanel.SetActive(true);
         int enemyHandNumber = Random.Range(0, 3);
         battleManager.Judge(myHandNuber, enemyHandNumber);
         SelectedHandAnimation(myHandNuber, enemyHandNumber);
@@ -211,13 +230,23 @@ public class UIManager : MonoBehaviour
             if (i == enemyHandNumber) enemyHandSkillGameObjects[i].GetComponent<RectTransform>().DOAnchorPosX(0, duration);
             else enemyHandSkillGameObjects[i].SetActive(false);
         }
-        DOVirtual.DelayedCall(duration+1.5f, () => SlideOutBattleCharacterCard()).OnComplete(() =>
+        DOVirtual.DelayedCall(duration + 1.5f, () => SlideOutBattleCharacterCard());
+    }
+
+    public void ShowJudgeImage(GameObject logo)
+    {
+        logo.transform.localScale = new Vector3(0.86f, 0.86f, 1);
+        logo.SetActive(true);
+        logo.GetComponent<Image>().DOFade(1, 0);
+        logo.transform.DOScale(1, duration).SetEase(Ease.OutBack);
+        DOVirtual.DelayedCall(duration + 1.5f, () => FadeOutImage(logo));
+    }
+
+    public void FadeOutImage(GameObject logo)
+    {
+        logo.GetComponent<Image>().DOFade(0, duration).OnComplete(() =>
         {
-            stopSelectHandPanel.SetActive(false);
-            selectHandCanvas.SetActive(false);
-            battleManager.Turn++;
-            turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
-            battleManager.STATE = BattleManager.State.SelectBattleCharacterState;
+            logo.SetActive(false);
         });
     }
 
