@@ -21,10 +21,14 @@ public class UIManager : MonoBehaviour
     public GameObject skillInformationPanel;
     public TextMeshProUGUI skillInformationPanelNameText;
     public TextMeshProUGUI[] skillInformationPanelHandTexts;
-    public TextMeshProUGUI[] skillInformationPanelDamageTexts;
     public GameObject stopSelectCharacterPanel;
     public SelectCharacter[] mySelectCharacters;
     public SelectCharacter[] enemySelectCharacters;
+
+    public Image[] handIconImages;
+    public Sprite gooSprite;
+    public Sprite chokiSprite;
+    public Sprite paaSprite;
     [Header("トップUI")]
     public TextMeshProUGUI turnNumberText;
     public TextMeshProUGUI myHpValueText;
@@ -37,23 +41,30 @@ public class UIManager : MonoBehaviour
     //自分
     public RectTransform myBattleCharacterCardRectTransform;
     public Image myBattleCharacterCardImage;
+    public CanvasGroup myBattleCharacterCardCanvasGroup;
     public GameObject myHandSkillPanel;
     public GameObject[] myHandSkillGameObjects;
     public TextMeshProUGUI[] myHandSkillTexts;
+    public TextMeshProUGUI myElementDamageText;
     //相手
     public RectTransform enemyBattleCharacterCardRectTransform;
     public Image enemyBattleCharacterCardImage;
+    public CanvasGroup enemyBattleCharacterCanvasGroup;
     public GameObject enemyHandSkillPanel;
     public GameObject[] enemyHandSkillGameObjects;
     public TextMeshProUGUI[] enemyHandSkillTexts;
+    public TextMeshProUGUI enemyElementDamageText;
 
     public GameObject winLogoGameObject;
     public GameObject loseLogoGameObject;
     public GameObject drawLogoGameObject;
 
+
+    
+
     private void Start()
     {
-        turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
+        turnNumberText.text = $"{battleManager.Turn}";
         myHpBar.fillAmount = 1;
         myHpValueText.text = $"<color=white>{battleManager.MyPartyCurrentHp}</color>/{battleManager.myPartyMaxHp}";
         enemyHpBar.fillAmount = 1;
@@ -153,43 +164,62 @@ public class UIManager : MonoBehaviour
     }
 
     //手を決めるステート--------------------------------------------------------------
+    /// <summary>
+    /// キャラクターカード等UIのスライドインアニメーションメソッド
+    /// </summary>
     public void SlideInBattleCharacterCard()
     {
         stopSelectHandPanel.SetActive(true);
 
         myBattleCharacterCardRectTransform.DOAnchorPosX(150, duration);
-        myBattleCharacterCardImage.DOFade(1, duration);
+        myBattleCharacterCardCanvasGroup.DOFade(1, duration);
 
         myHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(240, duration);
         myHandSkillPanel.GetComponent<CanvasGroup>().DOFade(1, duration);
 
         enemyBattleCharacterCardRectTransform.DOAnchorPosX(-150, duration);
-        enemyBattleCharacterCardImage.DOFade(1, duration);
+        enemyBattleCharacterCanvasGroup.DOFade(1, duration);
 
         enemyHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(-240, duration);
         enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(1, duration);
 
         DOVirtual.DelayedCall(duration, () => stopSelectHandPanel.SetActive(false));
     }
-
+    /// <summary>
+    /// キャラクターカード等UIのスライドアウトアニメーションメソッド＋じゃんけんステート終了処理
+    /// </summary>
     public void SlideOutBattleCharacterCard()
     {
         myBattleCharacterCardRectTransform.DOAnchorPosX(300, duration);
-        myBattleCharacterCardImage.DOFade(0, duration);
+        myBattleCharacterCardCanvasGroup.DOFade(0, duration);
         myHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(390, duration);
         myHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration);
 
         enemyBattleCharacterCardRectTransform.DOAnchorPosX(-300, duration);
-        enemyBattleCharacterCardImage.DOFade(0, duration);
+        enemyBattleCharacterCanvasGroup.DOFade(0, duration);
         enemyHandSkillPanel.GetComponent<RectTransform>().DOAnchorPosX(-390, duration);
         enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration).OnComplete(() =>
         {
             stopSelectHandPanel.SetActive(false);
             selectHandCanvas.SetActive(false);
+            if (battleManager.Turn == battleManager.GetMaxTurn()) ResetUsedCharacter();
             battleManager.Turn++;
-            turnNumberText.text = $"{battleManager.Turn}/{battleManager.maxTurn}";
+            turnNumberText.text = $"{battleManager.Turn}";
             battleManager.STATE = BattleManager.State.SelectBattleCharacterState;
         });
+    }
+
+    public void ResetUsedCharacter()
+    {
+        battleManager.usedMyPatry.Clear();
+        battleManager.usedEnemyParty.Clear();
+        for(int i = 0; i<mySelectCharacters.Length; i++)
+        {
+            mySelectCharacters[i].Used = false;
+            mySelectCharacters[i].coverImageGameObject.SetActive(false);
+            enemySelectCharacters[i].Used = false;
+            enemySelectCharacters[i].coverImageGameObject.SetActive(false);
+        }
     }
 
     public void OnHandButton(int myHandNuber)
@@ -206,6 +236,7 @@ public class UIManager : MonoBehaviour
         enemyBattleCharacterCardImage.sprite = battleManager.EnemyBattleCharacter.characterImage;
     }
 
+    //じゃんけんの手を決めるステート------------------------------------------------------------------
     public void ChangeHandUI()
     {
         for(int i = 0; i<myHandSkillGameObjects.Length; i++)
@@ -250,8 +281,16 @@ public class UIManager : MonoBehaviour
         });
     }
 
+    public void ChangeElementDamage()
+    {
+        myElementDamageText.text = $"{battleManager.MyBattleCharacter.handElementDamage}";
+        enemyElementDamageText.text = $"{battleManager.EnemyBattleCharacter.handElementDamage}";
+    }
+
     public void InitializeSelectHandUI()
     {
+        ChangeElementDamage();
+
         myHandSkillGameObjects[0].SetActive(true);
         myHandSkillGameObjects[0].transform.localPosition = new Vector2(-130, 0);
         myHandSkillGameObjects[1].SetActive(true);

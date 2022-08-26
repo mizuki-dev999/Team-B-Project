@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   name: "\u30DE\u30C3\u30B7\u30E5\u30FB\u30D0\u30FC\u30F3\u30C7\u30C3\u30C9"
+  rare: 2
   characterImage: {fileID: 21300000, guid: f3f3f0f2e1dbd16468d28a9a80595ed6, type: 3}
   handElement: 0
+  handElementDamage: 50
   skills:
   - hand: 0
     damage: 50
+    SkillEffectSprites: []
   - hand: 1
     damage: 5
+    SkillEffectSprites: []
   - hand: 2
-    damage: 15
+    damage: 5
+    SkillEffectSprites: []

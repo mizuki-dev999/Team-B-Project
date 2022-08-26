@@ -28,7 +28,8 @@ public class BattleManager : MonoBehaviour
         get => turn;
         set => turn = value;
     }
-    public int maxTurn = 4;
+    private int maxTurn = 4;
+    public int GetMaxTurn() => maxTurn;
     public int myPartyMaxHp = 100;
     public int enemyPartyMaxHp = 100;
     private int myPartyCurrentHp;
@@ -125,7 +126,7 @@ public class BattleManager : MonoBehaviour
         {
             Lose(enemyBattleCharacter.skills[enemyHandNumber]);
         }
-        else Draw(myBattleCharacter.skills[myHandNumber], enemyBattleCharacter.skills[enemyHandNumber]);
+        else Draw();
     }
 
     private void Win(Character.Skill mySkill)
@@ -146,18 +147,49 @@ public class BattleManager : MonoBehaviour
         uiManager.ChangeMyHpUI();
     }
 
-    private void Draw(Character.Skill mySkill, Character.Skill enemySkill)
+    private void Draw()
     {
-        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyCurrentHp);
-        if (mySkill.SkillEffectSprites.Length == 0) enemyEffect.BeginAnimation();
-        else enemyEffect.BeginAnimation(mySkill.SkillEffectSprites);
-        uiManager.ChangeEnemyHpUI();
-
-        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyCurrentHp);
-        if (enemySkill.SkillEffectSprites.Length == 0) myEffect.BeginAnimation();
-        else myEffect.BeginAnimation(enemySkill.SkillEffectSprites);
-        uiManager.ChangeMyHpUI();
-
         uiManager.ShowJudgeImage(uiManager.drawLogoGameObject);
+        SecondJudge();
+    }
+
+    /// <summary>
+    /// あいこ時の２段階判定メソッド
+    /// </summary>
+    public void SecondJudge()
+    {
+        if ((myBattleCharacter.handElement == Character.CharacterElement.グー && enemyBattleCharacter.handElement == Character.CharacterElement.チョキ) ||
+            (myBattleCharacter.handElement == Character.CharacterElement.チョキ && enemyBattleCharacter.handElement == Character.CharacterElement.パー) ||
+            (myBattleCharacter.handElement == Character.CharacterElement.パー && enemyBattleCharacter.handElement == Character.CharacterElement.グー))
+        {
+            SecondWin();
+        }
+        else if ((myBattleCharacter.handElement == Character.CharacterElement.グー && enemyBattleCharacter.handElement == Character.CharacterElement.パー) ||
+            (myBattleCharacter.handElement == Character.CharacterElement.チョキ && enemyBattleCharacter.handElement == Character.CharacterElement.グー) ||
+            (myBattleCharacter.handElement == Character.CharacterElement.パー && enemyBattleCharacter.handElement == Character.CharacterElement.チョキ))
+        {
+            SecondLose();
+        }
+        else SecondDraw();
+    }
+
+    public void SecondWin()
+    {
+        enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - myBattleCharacter.handElementDamage, 0, enemyPartyCurrentHp);
+        enemyEffect.BeginAnimation();
+        uiManager.ChangeEnemyHpUI();
+    }
+
+    public void SecondLose()
+    {
+        myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemyBattleCharacter.handElementDamage, 0, myPartyCurrentHp);
+        myEffect.BeginAnimation();
+        uiManager.ChangeMyHpUI();
+    }
+
+    public void SecondDraw()
+    {
+        if (myBattleCharacter.handElementDamage > enemyBattleCharacter.handElementDamage) SecondWin();
+        else if (myBattleCharacter.handElementDamage < enemyBattleCharacter.handElementDamage) SecondLose();
     }
 }

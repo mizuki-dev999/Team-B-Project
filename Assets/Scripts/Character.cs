@@ -22,6 +22,7 @@ public class Character : ScriptableObject
         パー, //パー
     }
     public CharacterElement handElement;
+    public int handElementDamage;
     public List<Skill> skills = new();
 
     [System.Serializable]

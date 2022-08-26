@@ -15,6 +15,11 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private bool pointerDownFlag = false;
     private bool holdAction = false;
     private bool used = false;
+    public bool Used
+    {
+        get => used;
+        set => used = value;
+    }
     public bool myCard = true;
     public int orderNumber;
     public GameObject coverImageGameObject;
@@ -70,10 +75,25 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         uiManager.skillInformationPanelNameText.text = character.name;
         for (int i = 0; i<character.skills.Count; i++)
         {
-            uiManager.skillInformationPanelHandTexts[i].text = character.skills[i].hand.ToString();
-            uiManager.skillInformationPanelDamageTexts[i].text = character.skills[i].damage.ToString();
+            uiManager.handIconImages[i].sprite = GetHandIconSprite(character.skills[i].hand);
+            uiManager.skillInformationPanelHandTexts[i].text = $"相手に{character.skills[i].damage}ダメージ与える";
         }
         uiManager.skillInformationPanel.SetActive(true);
+    }
+
+    public Sprite GetHandIconSprite(Character.Skill.Hand hand)
+    {
+        switch (hand)
+        {
+            case Character.Skill.Hand.グー:
+                return uiManager.gooSprite;
+            case Character.Skill.Hand.チョキ:
+                return uiManager.chokiSprite;
+            case Character.Skill.Hand.パー:
+                return uiManager.paaSprite;
+            default:
+                return uiManager.gooSprite;
+        }
     }
 
     /// <summary>
