@@ -73,6 +73,7 @@ public class SelectCharacter : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         Character character = (myCard) ? battleManager.myParty[orderNumber] : battleManager.enemyParty[orderNumber];
         uiManager.skillInformationPanelNameText.text = character.name;
+        uiManager.ChangeElementDamageText(character.handElementDamage);
         for (int i = 0; i<character.skills.Count; i++)
         {
             uiManager.handIconImages[i].sprite = GetHandIconSprite(character.skills[i].hand);

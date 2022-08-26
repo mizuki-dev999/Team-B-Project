@@ -21,6 +21,8 @@ public class UIManager : MonoBehaviour
     public GameObject skillInformationPanel;
     public TextMeshProUGUI skillInformationPanelNameText;
     public TextMeshProUGUI[] skillInformationPanelHandTexts;
+    public TextMeshProUGUI elementDamageText;
+
     public GameObject stopSelectCharacterPanel;
     public SelectCharacter[] mySelectCharacters;
     public SelectCharacter[] enemySelectCharacters;
@@ -58,6 +60,11 @@ public class UIManager : MonoBehaviour
     public GameObject winLogoGameObject;
     public GameObject loseLogoGameObject;
     public GameObject drawLogoGameObject;
+
+    public TextMeshProUGUI myDamageText;
+    public GameObject myDamageTextObject;
+    public TextMeshProUGUI enemyDamageText;
+    public GameObject enemyDamageTextObject;
 
 
     
@@ -106,6 +113,11 @@ public class UIManager : MonoBehaviour
     {
         enemyHpBar.fillAmount = (float)battleManager.EnemyPartyCurrentHp / battleManager.enemyPartyMaxHp;
         myEnemyValueText.text = $"<color=white>{battleManager.EnemyPartyCurrentHp}</color>/{battleManager.enemyPartyMaxHp}";
+    }
+
+    public void ChangeElementDamageText(int damage)
+    {
+        elementDamageText.text = $"{damage}";
     }
 
     public void SlideInPartyCharacterCard()
@@ -163,7 +175,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //手を決めるステート--------------------------------------------------------------
+    //じゃんけんの手を決めるステート------------------------------------------------------------------
     /// <summary>
     /// キャラクターカード等UIのスライドインアニメーションメソッド
     /// </summary>
@@ -201,6 +213,8 @@ public class UIManager : MonoBehaviour
         enemyHandSkillPanel.GetComponent<CanvasGroup>().DOFade(0, duration).OnComplete(() =>
         {
             stopSelectHandPanel.SetActive(false);
+            myDamageTextObject.SetActive(false);
+            enemyDamageTextObject.SetActive(false);
             selectHandCanvas.SetActive(false);
             if (battleManager.Turn == battleManager.GetMaxTurn()) ResetUsedCharacter();
             battleManager.Turn++;
@@ -236,7 +250,6 @@ public class UIManager : MonoBehaviour
         enemyBattleCharacterCardImage.sprite = battleManager.EnemyBattleCharacter.characterImage;
     }
 
-    //じゃんけんの手を決めるステート------------------------------------------------------------------
     public void ChangeHandUI()
     {
         for(int i = 0; i<myHandSkillGameObjects.Length; i++)

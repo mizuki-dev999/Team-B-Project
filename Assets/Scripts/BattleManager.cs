@@ -132,6 +132,8 @@ public class BattleManager : MonoBehaviour
     private void Win(Character.Skill mySkill)
     {
         enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - mySkill.damage, 0, enemyPartyCurrentHp);
+        uiManager.enemyDamageText.text = $"{mySkill.damage}";
+        uiManager.enemyDamageTextObject.SetActive(true);
         if (mySkill.SkillEffectSprites.Length == 0) enemyEffect.BeginAnimation();
         else enemyEffect.BeginAnimation(mySkill.SkillEffectSprites);
         uiManager.ShowJudgeImage(uiManager.winLogoGameObject);
@@ -141,6 +143,8 @@ public class BattleManager : MonoBehaviour
     private void Lose(Character.Skill enemySkill)
     {
         myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemySkill.damage, 0, myPartyCurrentHp);
+        uiManager.myDamageText.text = $"{enemySkill.damage}";
+        uiManager.myDamageTextObject.SetActive(true);
         if (enemySkill.SkillEffectSprites.Length == 0) myEffect.BeginAnimation();
         else myEffect.BeginAnimation(enemySkill.SkillEffectSprites);
         uiManager.ShowJudgeImage(uiManager.loseLogoGameObject);
@@ -176,6 +180,8 @@ public class BattleManager : MonoBehaviour
     public void SecondWin()
     {
         enemyPartyCurrentHp = Mathf.Clamp(enemyPartyCurrentHp - myBattleCharacter.handElementDamage, 0, enemyPartyCurrentHp);
+        uiManager.enemyDamageText.text = $"{myBattleCharacter.handElementDamage}";
+        uiManager.enemyDamageTextObject.SetActive(true);
         enemyEffect.BeginAnimation();
         uiManager.ChangeEnemyHpUI();
     }
@@ -183,6 +189,8 @@ public class BattleManager : MonoBehaviour
     public void SecondLose()
     {
         myPartyCurrentHp = Mathf.Clamp(myPartyCurrentHp - enemyBattleCharacter.handElementDamage, 0, myPartyCurrentHp);
+        uiManager.myDamageText.text = $"{enemyBattleCharacter.handElementDamage}";
+        uiManager.myDamageTextObject.SetActive(true);
         myEffect.BeginAnimation();
         uiManager.ChangeMyHpUI();
     }
@@ -191,5 +199,12 @@ public class BattleManager : MonoBehaviour
     {
         if (myBattleCharacter.handElementDamage > enemyBattleCharacter.handElementDamage) SecondWin();
         else if (myBattleCharacter.handElementDamage < enemyBattleCharacter.handElementDamage) SecondLose();
+        else
+        {
+            uiManager.enemyDamageText.text = $"0";
+            uiManager.enemyDamageTextObject.SetActive(true);
+            uiManager.myDamageText.text = $"0";
+            uiManager.myDamageTextObject.SetActive(true);
+        }
     }
 }
